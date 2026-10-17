@@ -1,9 +1,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/in.h>
+#include <arpa/inet.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 
 int main(){
