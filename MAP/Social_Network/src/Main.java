@@ -1,13 +1,34 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import repository.FriendshipRepository;
+import repository.UserRepository;
+import service.FriendshipService;
+import service.UserService;
+import ui.ConsoleUI;
+import validator.FriendshipValidator;
+import validator.UserValidator;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+public class Main {
+
+    public static void main(String[] args) {
+
+        UserRepository userRepository = new UserRepository();
+        FriendshipRepository friendshipRepository = new FriendshipRepository();
+
+        UserService userService = new UserService(
+                userRepository,
+                new UserValidator()
+        );
+
+        FriendshipService friendshipService = new FriendshipService(
+                friendshipRepository,
+                userRepository,
+                new FriendshipValidator()
+        );
+
+        ConsoleUI ui = new ConsoleUI(
+                userService,
+                friendshipService
+        );
+
+        ui.run();
     }
 }

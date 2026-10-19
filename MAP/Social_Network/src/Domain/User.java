@@ -1,33 +1,56 @@
 package Domain;
 
-public class User {
-    private final int id;
-    private String Username;
-    private String email;
+import Domain.Entity;
 
-    public User(int id, String email, String username) {
-        this.id = id;
-        this.email = email;
-        Username = username;
+import java.util.ArrayList;
+import java.util.List;
+
+public class User extends Entity<Long> {
+    private String firstName;
+    private String lastName;
+    private List<Long> friendIds;
+
+    public User(Long id, String firstName, String lastName) {
+        super(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.friendIds = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getUsername() {
-        return Username;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public List<Long> getFriendIds() {
+        return friendIds;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setUsername(String username) {
-        Username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void addFriend(Long friendId) {
+        friendIds.add(friendId);
+    }
+
+    public void removeFriend(Long friendId) {
+        friendIds.remove(friendId);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + getId() +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }
