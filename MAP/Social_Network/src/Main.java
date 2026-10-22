@@ -1,6 +1,7 @@
 import repository.FriendshipRepository;
 import repository.UserRepository;
 import service.FriendshipService;
+import service.NetworkService;
 import service.UserService;
 import ui.ConsoleUI;
 import validator.FriendshipValidator;
@@ -12,6 +13,7 @@ public class Main {
 
         UserRepository userRepository = new UserRepository();
         FriendshipRepository friendshipRepository = new FriendshipRepository();
+        NetworkService networkService = new NetworkService(userRepository, friendshipRepository);
 
         UserService userService = new UserService(
                 userRepository,
@@ -26,7 +28,8 @@ public class Main {
 
         ConsoleUI ui = new ConsoleUI(
                 userService,
-                friendshipService
+                friendshipService,
+                networkService
         );
 
         ui.run();

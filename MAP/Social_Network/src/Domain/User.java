@@ -6,14 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User extends Entity<Long> {
+    //unique identifiers: id, username
+    private Long id;
     private String firstName;
     private String lastName;
+    private String username;
     private List<Long> friendIds;
 
-    public User(Long id, String firstName, String lastName) {
+    public User(Long id, String firstName, String lastName, String username) {
         super(id);
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.friendIds = new ArrayList<>();
     }
 
@@ -47,10 +52,15 @@ public class User extends Entity<Long> {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + getId() +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return "@" + username + "(" + firstName + ", " + lastName + ")";
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
