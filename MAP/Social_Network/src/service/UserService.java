@@ -2,9 +2,11 @@ package service;
 
 import Domain.User;
 import repository.Repository;
+import validator.ServiceException;
 import validator.Validator;
 
 import java.util.Iterator;
+import java.util.Objects;
 
 public class UserService {
 
@@ -31,6 +33,11 @@ public class UserService {
     }
 
     public void addUser(String firstName, String lastName, String username) {
+        for(User user : repository.getAll()){
+            if(Objects.equals(username, user.getUsername())){
+                throw new ServiceException("username already exists");
+            }
+        }
         User user = new User(
                 generateId(),
                 firstName,

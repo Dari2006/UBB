@@ -2,12 +2,13 @@ package repository.fileRepository;
 
 import Domain.Entity;
 import Domain.Friendship;
+import validator.FriendshipValidator;
 
 import java.time.LocalDateTime;
 
 public class FriendshipFileRepository extends AbstractFileRepository{
-    public FriendshipFileRepository(String filename) {
-        super(filename);
+    public FriendshipFileRepository(String filename, FriendshipValidator validator) {
+        super(filename, validator);
     }
 
     @Override

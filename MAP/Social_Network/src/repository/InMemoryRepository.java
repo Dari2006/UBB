@@ -2,6 +2,7 @@ package repository;
 
 import Domain.Entity;
 import validator.RepositoryException;
+import validator.Validator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,11 @@ import java.util.Map;
 public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<ID,E> {
 
     protected Map<ID,E> entities = new HashMap<>();
+    Validator<E> validator;
 
+    public InMemoryRepository(Validator<E> validator) {
+        this.validator = validator;
+    }
 
     @Override
     public E findById(ID id) {
@@ -63,7 +68,6 @@ public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<
     public boolean isEmpty(){
         return entities.isEmpty();
     }
-
 
 
 }

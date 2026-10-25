@@ -3,6 +3,7 @@ package service;
 import Domain.Friendship;
 import Domain.User;
 import repository.Repository;
+import validator.FriendshipValidator;
 import validator.Validator;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ public class FriendshipService {
 
     private Repository<Long, Friendship> friendshipRepository;
     private Repository<Long, User> userRepository;
-    private Validator<Friendship> validator;
+    private FriendshipValidator validator;
     private Long nextId;
 
     public FriendshipService(
@@ -21,7 +22,7 @@ public class FriendshipService {
 
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
-        this.validator = validator;
+        this.validator = (FriendshipValidator) validator;
         nextId = 1L;
     }
 

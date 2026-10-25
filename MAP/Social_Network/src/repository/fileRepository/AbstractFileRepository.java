@@ -2,6 +2,8 @@ package repository.fileRepository;
 
 import Domain.Entity;
 import repository.InMemoryRepository;
+import validator.RepositoryException;
+import validator.Validator;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,7 +14,8 @@ import static java.nio.file.Files.newBufferedReader;
 public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends InMemoryRepository<ID, E> {
     private final String filename;
 
-    public AbstractFileRepository(String filename){
+    public AbstractFileRepository(String filename, Validator<E> validator){
+        super(validator);
         this.filename = filename;
         loadData();
     }
@@ -24,15 +27,21 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
 
     public void loadData(){
         Path path = Path.of(filename);
-        try(BufferedReader in = Files.newBufferedReader(path)){
-            String line;
-            while((line = in.readLine()) != null){
-                E e = extractEntity(line);
-                super.save(e);
+
+        try{
+            if(Files.notExists(path)){
+                Files.createFile(path);
+            }
+            try(BufferedReader in = Files.newBufferedReader(path)){
+                String line;
+                while((line = in.readLine()) != null){
+                    E e = extractEntity(line);
+                    super.save(e);
+                }
             }
         }
         catch(IOException e){
-            e.printStackTrace();
+            throw new RepositoryException("file error");
 
         }
     }

@@ -2,11 +2,12 @@ package repository.fileRepository;
 
 import Domain.Entity;
 import Domain.User;
+import validator.UserValidator;
 
 public class UserFileRepository extends AbstractFileRepository {
 
-    public UserFileRepository(String filename) {
-        super(filename);
+    public UserFileRepository(String filename, UserValidator validator) {
+        super(filename, validator);
     }
 
     @Override

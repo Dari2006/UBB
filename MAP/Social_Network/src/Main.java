@@ -1,4 +1,9 @@
+import Config.Config;
+import Domain.Friendship;
+import Domain.User;
 import repository.FriendshipRepository;
+import repository.Repository;
+import repository.RepositoryFactory;
 import repository.UserRepository;
 import repository.fileRepository.FriendshipFileRepository;
 import repository.fileRepository.UserFileRepository;
@@ -13,26 +18,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        UserFileRepository userRepository = new UserFileRepository("data/utilizatori.txt");
-        FriendshipFileRepository friendshipRepository = new FriendshipFileRepository("data/prietenii.txt");
-        NetworkService networkService = new NetworkService(userRepository, friendshipRepository);
+        UserValidator userVal = new UserValidator();
+        FriendshipValidator friendshipVal = new FriendshipValidator();
+        Config config = new Config();
 
-        UserService userService = new UserService(
-                userRepository,
-                new UserValidator()
-        );
+        RepositoryFactory repoFact = new RepositoryFactory(config.getProperties());
+        Repository<Long, User> repoUser = repoFact.createUserRepository(userVal);
+        Repository<Long, Friendship> friendshipRepo = repoFact.createFriendshipRepository(friendshipVal);
 
-        FriendshipService friendshipService = new FriendshipService(
-                friendshipRepository,
-                userRepository,
-                new FriendshipValidator()
-        );
-
-        ConsoleUI ui = new ConsoleUI(
-                userService,
-                friendshipService,
-                networkService
-        );
+        UserService userService = new UserService(repoUser, userVal);
+        FriendshipService friendshipService = new FriendshipService(friendshipRepo, repoUser, friendshipVal);
+        NetworkService networkService = new NetworkService(repoUser, friendshipRepo);
+        ConsoleUI ui = new ConsoleUI(userService, friendshipService, networkService);
 
         ui.run();
     }

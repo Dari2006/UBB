@@ -3,10 +3,14 @@ package ui;
 import Domain.Friendship;
 import Domain.User;
 import repository.FriendshipRepository;
+import repository.Repository;
 import service.FriendshipService;
 import service.NetworkService;
 import service.UserService;
+import validator.RepositoryException;
+import validator.ServiceException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,7 +67,11 @@ public class ConsoleUI {
                     default:
                         System.out.println("Invalid option");
                 }
-            } catch (RuntimeException e) {
+            }
+            catch(RepositoryException e){
+                System.out.println(e.getMessage());
+            }
+            catch (RuntimeException e) {
                 System.out.println("Error: " + e.getMessage());
             }
         }
@@ -92,10 +100,19 @@ public class ConsoleUI {
 
         System.out.print("Username: ");
         String username = scanner.nextLine();
+        try{
+            userService.addUser(firstName, lastName, username);
+            System.out.println("User added!");
+        }
+        catch(RepositoryException e){
+            System.out.println(e.getMessage());
+        }
+        catch (ServiceException e) {
+            System.out.println(e.getMessage());
+        }
 
-        userService.addUser(firstName, lastName, username);
 
-        System.out.println("User added!");
+
     }
 
     private void showUsers() {
@@ -125,13 +142,20 @@ public class ConsoleUI {
 
     private void addFriendship() {
 
-        System.out.print("First user id: ");
-        Long user1Id = Long.parseLong(scanner.nextLine());
 
-        System.out.print("Second user id: ");
-        Long user2Id = Long.parseLong(scanner.nextLine());
+        try{
+            System.out.print("First user id: ");
+            Long user1Id = Long.parseLong(scanner.nextLine());
+            System.out.print("Second user id: ");
+            Long user2Id = Long.parseLong(scanner.nextLine());
 
-        friendshipService.addFriendship(user1Id, user2Id);
+            friendshipService.addFriendship(user1Id, user2Id);
+        }
+        catch(NumberFormatException e){
+            System.out.println("not a number");
+        }
+
+
 
         System.out.println("Friendship added!");
     }
