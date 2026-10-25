@@ -68,6 +68,12 @@ public class ConsoleUI {
                         System.out.println("Invalid option");
                 }
             }
+            catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+            }
+            catch(UnsupportedOperationException e){
+                System.out.println("unimplemented method");
+            }
             catch(RepositoryException e){
                 System.out.println(e.getMessage());
             }
@@ -110,9 +116,6 @@ public class ConsoleUI {
         catch (ServiceException e) {
             System.out.println(e.getMessage());
         }
-
-
-
     }
 
     private void showUsers() {

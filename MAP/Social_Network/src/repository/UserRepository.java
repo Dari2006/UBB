@@ -7,6 +7,6 @@ import validator.Validator;
 public class UserRepository extends InMemoryRepository<Long, User> {
 
     public UserRepository(UserValidator validator) {
-        super(validator);
+        super(validator, User::getUsername);
     }
 }

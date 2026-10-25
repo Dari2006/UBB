@@ -51,6 +51,10 @@ public class NetworkService {
         }
     }
 
+    /**
+     * method that calculates number of communities
+     * @return int, nunber of communitiers
+     */
     public int getNumberOfCommunities() {
         int count = 0;
 
@@ -117,6 +121,10 @@ public class NetworkService {
         return max;
     }
 
+    /**
+     * method that finds the largest community
+     * @return list of users belonging to said community
+     */
     public List<User> getMostSocialCommunity() {
 
         Set<User> visited = new HashSet<>();

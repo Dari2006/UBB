@@ -21,6 +21,11 @@ public class RepositoryFactory {
 
     }
 
+    /**
+     * method that creates a user repository
+     * @param valdiaotr, user validator
+     * @return new user repository dependingon repository type specified in config file
+     */
     public Repository<Long, User> createUserRepository(UserValidator valdiaotr){
         String property = properties.getProperty("repository.type");
         RepositoryType type = RepositoryType.valueOf(property.trim().toUpperCase());
@@ -39,6 +44,11 @@ public class RepositoryFactory {
         }
     }
 
+    /**
+     * method that creates new friendship repository
+     * @param valdiaotr, friendship validator
+     * @return new friendship repository, based on specified type in config file
+     */
     public Repository<Long, Friendship> createFriendshipRepository(FriendshipValidator valdiaotr){
         String property = properties.getProperty("repository.type");
         RepositoryType type = RepositoryType.valueOf(property.trim().toUpperCase());
