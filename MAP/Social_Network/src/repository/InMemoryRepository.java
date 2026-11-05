@@ -4,11 +4,9 @@ import Domain.Entity;
 import validator.RepositoryException;
 import validator.Validator;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 
 public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<ID,E> {
@@ -104,6 +102,5 @@ public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<
     public boolean isEmpty(){
         return entities.isEmpty();
     }
-
 
 }

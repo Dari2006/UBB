@@ -3,6 +3,7 @@ package repository.fileRepository;
 import Domain.Entity;
 import Domain.Friendship;
 import validator.FriendshipValidator;
+import validator.RepositoryException;
 
 import java.time.LocalDateTime;
 
@@ -14,12 +15,18 @@ public class FriendshipFileRepository extends AbstractFileRepository{
     @Override
     public Entity extractEntity(String line) {
         String[] args = line.split(";");
-
-        Long id = Long.parseLong(args[0]);
-        Long id1 = Long.parseLong(args[1]);
-        Long id2 = Long.parseLong(args[2]);
-        LocalDateTime friendsSince = LocalDateTime.parse(args[3]);
-        return new Friendship(id, id1, id2, friendsSince);
+        if(args.length != 4)
+            throw new RepositoryException("invalid line");
+        try {
+            Long id = Long.parseLong(args[0]);
+            Long id1 = Long.parseLong(args[1]);
+            Long id2 = Long.parseLong(args[2]);
+            LocalDateTime friendsSince = LocalDateTime.parse(args[3]);
+            return new Friendship(id, id1, id2, friendsSince);
+        }
+        catch(NumberFormatException e){
+            throw new RepositoryException("invaldi line");
+        }
     }
 
     @Override

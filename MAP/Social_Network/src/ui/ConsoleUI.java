@@ -138,6 +138,7 @@ public class ConsoleUI {
         System.out.print("User id: ");
         Long id = Long.parseLong(scanner.nextLine());
 
+        friendshipService.deleteFriendshipsForUser(id);
         userService.deleteUser(id);
 
         System.out.println("User deleted!");

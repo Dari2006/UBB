@@ -7,6 +7,8 @@ import validator.FriendshipValidator;
 import validator.Validator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendshipService {
 
@@ -48,7 +50,15 @@ public class FriendshipService {
         );
 
         validator.validate(friendship);
+        for (Friendship existing : friendshipRepository.getAll()) {
+            boolean samePair =
+                    (existing.getUser1Id().equals(user1Id) && existing.getUser2Id().equals(user2Id)) ||
+                            (existing.getUser1Id().equals(user2Id) && existing.getUser2Id().equals(user1Id));
 
+            if (samePair) {
+                throw new IllegalArgumentException("These users are already friends");
+            }
+        }
         friendshipRepository.save(friendship);
 
         user1.addFriend(user2Id);
@@ -76,5 +86,20 @@ public class FriendshipService {
         userRepository.update(user2);
 
         friendshipRepository.delete(friendshipId);
+    }
+
+    public void deleteFriendshipsForUser(Long userId) {
+        List<Long> idsToDelete = new ArrayList<>();
+
+        for (Friendship friendship : friendshipRepository.getAll()) {
+            if (friendship.getUser1Id().equals(userId) ||
+                    friendship.getUser2Id().equals(userId)) {
+                idsToDelete.add(friendship.getId());
+            }
+        }
+
+        for (Long id : idsToDelete) {
+            deleteFriendship(id);
+        }
     }
 }

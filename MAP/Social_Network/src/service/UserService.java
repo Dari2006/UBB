@@ -3,6 +3,7 @@ package service;
 import Domain.User;
 import repository.Repository;
 import validator.ServiceException;
+import validator.ValidationException;
 import validator.Validator;
 
 import java.util.Iterator;
@@ -17,8 +18,18 @@ public class UserService {
 
     public UserService(Repository<Long, User> repository, Validator<User> validator) {
         this.repository = repository;
-        this.validator = validator;
+        this.validator = createValidator(validator);
         nextId = 1L;
+    }
+
+    Validator<User> createValidator(Validator<User> val1){
+        Validator<User> v2 = val1.andThen(user->{
+           if(user.getUsername() == null || user.getUsername().length() < 2){
+               throw new ValidationException("username is too short");
+           }
+        });
+
+        return v2;
     }
 
     private Long generateId(){
